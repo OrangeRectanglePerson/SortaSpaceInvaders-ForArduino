@@ -1,4 +1,4 @@
-# SortaSpaceInvaders-ForArduino<br/>
+# Sort Of Space Invaders For The Arduino<br/>
 Sort of space invaders for arduino.<br/><br/>
 Display for this game consists of 2 16x2 character LCD displays.<br/>
 Ideal display arrangement is placing the character LCDs one one above the other (in the 2d sense, not height).<br/>
