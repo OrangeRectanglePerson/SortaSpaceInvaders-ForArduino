@@ -10,6 +10,8 @@ LiquidCrystal lcd2(28,29,30,31,32,33);
 
 unsigned long lastFrameMicros = 0; //stores micros() value of when last frame drawn
 
+volatile boolean buttonBInterruptTriggered = false; //set to true when button B pressed
+
 class Bullet {
   public:
     int bulletcounter = -1;
@@ -135,8 +137,7 @@ class SpaceInvaders{
     B00000,
     B00000
   };
-
-  volatile bool playerBulletFired = false;
+  
   byte bulletWaitFrames = 0; //if value is 0, a new bullet can be fired; if value > 0, the value will decrement per frame drawn
 
   Bullet* bulletArray[6] = {new Bullet, new Bullet, new Bullet, new Bullet, new Bullet, new Bullet};
@@ -239,10 +240,6 @@ class SpaceInvaders{
     for(BulletSprite* bs : bsArray) delete bs;
   }
   
-  void firebullet(){
-    playerBulletFired = true;
-  }
-  
   int bulletArrayAvailableSpace() {
     int i = 0;
     for (Bullet* b : bulletArray) {
@@ -253,7 +250,7 @@ class SpaceInvaders{
 
   void callFrame() {
     //"blanking period"
-    if((playerBulletFired) && ((bulletArrayAvailableSpace() > 0)) && (bulletWaitFrames == 0)){    
+    if((buttonBInterruptTriggered) && ((bulletArrayAvailableSpace() > 0)) && (bulletWaitFrames == 0)){    
       Bullet* b;
       
       for(Bullet* tempB : bulletArray) {
@@ -265,11 +262,11 @@ class SpaceInvaders{
       b->bulletHorCoarsePos = playerpos/5;
       b->bulletHorFinePos = playerpos%5;
       if (b->bulletHorFinePos > 2) b->bulletHorCoarsePos++;
-      playerBulletFired = false;
+      buttonBInterruptTriggered = false;
       bulletWaitFrames = 6; //wait 6 frames until next bullet can be drawn
       digitalWrite(BEEPER, HIGH);
     } else {
-      playerBulletFired = false;
+      buttonBInterruptTriggered = false;
       if (bulletWaitFrames > 0) bulletWaitFrames--;
       digitalWrite(BEEPER, LOW);
     }
@@ -314,5 +311,5 @@ void loop() {
 }
 
 void buttonInterrupt(){
-  game->firebullet();
+  buttonBInterruptTriggered = true;
 }
