@@ -12,4 +12,6 @@ Pinout is as follows:<br/>
 - 18 button
 - 40 beeper
 
-Code is made to run on an Arduino Mega 2560 but with some changing of pin numbers it should work on Arduino Uno and the sorts.
+Code is made to run on an Arduino Mega 2560 but with some changing of pin numbers it should work on Arduino Uno and the sorts.<br/>
+
+more games might be coming soon...
